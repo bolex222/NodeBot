@@ -2,7 +2,7 @@
   "name": "axel",
   "version": "1.0.0",
   "description": "BOT discord publication organizer",
-  "main": "app.js",
+  "main": "src/axel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

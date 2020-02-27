@@ -2,6 +2,7 @@
 require('dotenv').config()
 const Discord = require('discord.js')
 const messages = require('./utils/messages')
+const welcomeController = require('./controllers/welcomeController')
 const bot = new Discord.Client()
 const loginToken = process.env.LOGIN_TOKEN
 
@@ -29,4 +30,9 @@ bot.on('message', message => {
   if (message.content === '$*help')
     message.channel.send(messages.help)
 
+})
+
+bot.on('guildMemberAdd', member => {
+  console.log('hello')
+  welcomeController.sayHello(member, bot)
 })

@@ -1,0 +1,15 @@
+{
+  "name": "axel",
+  "version": "1.0.0",
+  "description": "BOT discord publication organizer",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "discord"
+  ],
+  "author": "bolex222",
+  "license": "ISC"
+}

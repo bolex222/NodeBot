@@ -1,1 +1,1 @@
-"console.log('files creation')" 
+console.log('files creation')

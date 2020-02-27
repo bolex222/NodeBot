@@ -4,6 +4,7 @@
   "description": "BOT discord publication organizer",
   "main": "src/axel.js",
   "scripts": {
+    "dev": "node src/axel.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

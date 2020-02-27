@@ -2,9 +2,9 @@
   "name": "axel",
   "version": "1.0.0",
   "description": "BOT discord publication organizer",
-  "main": "src/axel.js",
+  "main": "src/app.js",
   "scripts": {
-    "dev": "node src/axel.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,5 +12,10 @@
     "discord"
   ],
   "author": "bolex222",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.2"
+  }
 }

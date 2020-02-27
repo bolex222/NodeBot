@@ -24,3 +24,9 @@ bot.on('ready', () => {
   }
 
 })
+
+bot.on('message', message => {
+  if (message.content === '$*help')
+    message.channel.send(messages.help)
+
+})

@@ -1,38 +1,55 @@
 // IMPORTS
 require('dotenv').config()
 const Discord = require('discord.js')
+const config = require('../config/config')
 const messages = require('./utils/messages')
 const welcomeController = require('./controllers/welcomeController')
+const loginController = require('./controllers/loginController')
+const commandController = require('./controllers/commandesControllers')
+// const logger = require('./utils/logger')
+
+// BOT DECLARATION
 const bot = new Discord.Client()
-const loginToken = process.env.LOGIN_TOKEN
 
+// START LOGGER
+// const log = logger.log.createSimpleLogger(logger.opts)
 
-// CONNEXION TO DISCORD SERVER
-bot.login(loginToken)
-  .then(() => {
-  console.log(messages.hello.consoleStart)
-})
-  .catch(() => {
-    console.log(messages.error.startingError)
-  })
-
-//SEND A MESSAGE IF EVERY THINK IS OK
-bot.on('ready', () => {
+const startBot = async () => {
   try {
-    bot.channels.get(process.env.TEST_CHANNEL).send(messages.hello.start)
+    await loginController.loginBot(bot)
+    console.log(`${config.console.info} bot connected`)
   } catch (e) {
-    console.log('zut')
+    console.log(`${config.console.error} bot can't connect`)
+    return
   }
 
-})
+  // SEND A MESSAGE IF EVERY THINK IS OK
+  bot.on('ready', () => {
+    try {
+      bot.channels.get(process.env.TEST_CHANNEL).send(messages.hello.start)
+    } catch (e) {
+      console.log('zut')
+    }
+  })
 
-bot.on('message', message => {
-  if (message.content === '$*help')
-    message.channel.send(messages.help)
+  // RECEIVING NEW GUILD MEMBER
+  bot.on('guildMemberAdd', member => {
+    console.log('hello')
+    welcomeController.sayHello(member, bot)
+  })
 
-})
+  // CHECK EVERY MESSAGE
+  bot.on('message', async message => {
+    if (message.content.startsWith(process.env.PREFIX) || !message.author.bot || message.channel.type !== 'dm') {
+      try {
+        await commandController.redirect(message, bot)
+      } catch (e) {
+        console.log(`${config.console.error} can't ask any command, error: ${e}`)
+      }
+    } else {
+    }
+  })
+}
 
-bot.on('guildMemberAdd', member => {
-  console.log('hello')
-  welcomeController.sayHello(member, bot)
-})
+// CALL BOT STARTER METHOD
+startBot()

@@ -16,7 +16,7 @@ module.exports = {
         break
       case `${config.prefix}annonce`:
         try {
-          await announcement.announcement(message, messageArray)
+          await announcement.announcement(message, messageArray, bot)
         } catch (e) {
           console.log(`${config.console.error} can't ask for annonce command, error: ${e}`)
         }

@@ -1,8 +1,6 @@
-const Discord = require('discord.js')
 const config = require('../../../config/config')
 const middleware = require('../../middleware/middlewares')
 const schedule = require('node-schedule')
-
 require('dotenv').config()
 
 const parsingAndCheckType = (array) => {
@@ -27,25 +25,16 @@ const stringToDate = (date) => {
   }
 }
 
-const generateEmbed = (message, announcement) => {
-  return new Discord.RichEmbed()
-    .setColor('#465bff')
-    .setDescription(announcement)
-    .setFooter(`by ${message.author.tag}`)
-    .setAuthor(`${message.author.tag}`, message.author.avatarURL)
-}
-
 module.exports = {
-  async announcement (message, messageArray) {
-    if (middleware.roleCheck(message, process.env.ALLOWED_ROLE, messageArray[0]) && middleware.argumentsCheck(message, messageArray, 2)) {
+  async announcement (message, messageArray, bot) {
+    if (middleware.roleCheck(message, process.env.ALLOWED_ROLE, messageArray[0]) && middleware.argumentsCheck(message, messageArray, 2) && middleware.channelCheck(message, messageArray, bot)) {
       const dateOrNot = stringToDate(messageArray[1])
       if (dateOrNot) {
         if (dateOrNot >= new Date()) {
           console.log(`${config.console.info} announcement from ${message.author.tag} will be send`)
           schedule.scheduleJob(dateOrNot, () => {
             try {
-              message.channel.send(`${message.author}`)
-              message.channel.send(generateEmbed(message, messageArray[2]))
+              bot.channels.get(process.env.ANNOUNCEMENT_CHANEL).send(`@everyone\n${messageArray[2]}`)
               console.log(`${config.console.info} announcement from ${message.author.tag} posted`)
               message.delete()
             } catch (e) {

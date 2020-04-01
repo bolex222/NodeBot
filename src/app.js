@@ -6,13 +6,9 @@ const messages = require('./utils/messages')
 const welcomeController = require('./controllers/welcomeController')
 const loginController = require('./controllers/loginController')
 const commandController = require('./controllers/commandesControllers')
-// const logger = require('./utils/logger')
 
 // BOT DECLARATION
-const bot = new Discord.Client()
-
-// START LOGGER
-// const log = logger.log.createSimpleLogger(logger.opts)
+const bot = new Discord.Client({ disableEveryone: false })
 
 const startBot = async () => {
   try {
@@ -25,11 +21,9 @@ const startBot = async () => {
 
   // SEND A MESSAGE IF EVERY THINK IS OK
   bot.on('ready', () => {
-    try {
-      bot.channels.get(process.env.TEST_CHANNEL).send(messages.hello.start)
-    } catch (e) {
-      console.log('zut')
-    }
+    console.log('bot pret')
+    bot.channels.get(process.env.TEST_CHANNEL).send(messages.hello.start)
+    console.log('bot pret')
   })
 
   // RECEIVING NEW GUILD MEMBER
@@ -46,7 +40,6 @@ const startBot = async () => {
       } catch (e) {
         console.log(`${config.console.error} can't ask any command, error: ${e}`)
       }
-    } else {
     }
   })
 }

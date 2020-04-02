@@ -25,7 +25,7 @@ module.exports = {
   },
 
   channelCheck (message, arrayMessage, bot) {
-    if (message.channel === process.env.ANNOUNCEMENT_ADMIN_CHANNEL) {
+    if (message.channel.id === process.env.ANNOUNCEMENT_ADMIN_CHANNEL) {
       return true
     } else {
       message.channel.send(`désolé ${message.author} tu n'est pas authorisé a poster ça depuis ce channel, essay depuis le channel ${bot.channels.get(process.env.ANNOUNCEMENT_ADMIN_CHANNEL)} .Si tu ne vois pas le channel contact un administrateur du serveur :)`)

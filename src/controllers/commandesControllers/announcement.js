@@ -25,6 +25,14 @@ const stringToDate = (date) => {
   }
 }
 
+const allImageToUrl = (message) => {
+  let finalUrl = ''
+  message.attachments.forEach(image => {
+    finalUrl = `${finalUrl}${image.url}\n`
+  })
+  return finalUrl
+}
+
 module.exports = {
   async announcement (message, messageArray, bot) {
     if (middleware.roleCheck(message, process.env.ALLOWED_ROLE, messageArray[0]) && middleware.argumentsCheck(message, messageArray, 2) && middleware.channelCheck(message, messageArray, bot)) {
@@ -34,7 +42,12 @@ module.exports = {
           console.log(`${config.console.info} announcement from ${message.author.tag} will be send`)
           schedule.scheduleJob(dateOrNot, () => {
             try {
-              bot.channels.get(process.env.ANNOUNCEMENT_CHANEL).send(`@everyone\n${messageArray[2]}`)
+              if (message.attachments.size > 0) {
+                // TODO solve problem of authorization url : https://stackoverflow.com/questions/57333985/getting-403-anonymous-caller-does-not-have-storage-objects-get-access-when-try
+                bot.channels.get(process.env.ANNOUNCEMENT_CHANEL).send(`@everyone\n${messageArray[2]}\n${allImageToUrl(message)}`)
+              } else {
+                bot.channels.get(process.env.ANNOUNCEMENT_CHANEL).send(`@everyone\n${messageArray[2]}`)
+              }
               console.log(`${config.console.info} announcement from ${message.author.tag} posted`)
               message.delete()
             } catch (e) {
